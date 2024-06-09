@@ -3,6 +3,7 @@ import sys
 import math
 from random import randint, random
 from FeedingConstants import *
+from GameMenu import *
 from Button import *
 from highscores import *
 from util import *
@@ -169,6 +170,7 @@ class Candy():
 class FeedingFrenzy():
     def __init__(self):
         self.screen = pygame.display.set_mode((SCREEN_WIDTH, SCREEN_HEIGHT))
+        self.gameMenu = GameMenu(self.screen, FEEDINGFRENZY_TEXT)
         self.fish = Fish(self.screen, PLAYER_SIZE1, CX, CY, 0)
         self.background = list()
         self.directionX = 0
@@ -182,8 +184,6 @@ class FeedingFrenzy():
         self.timer = 0
         self.backgroundMaxSize = BACKGROUND_MAX_SIZE1
         self.populationCap = POPULATION_CAP1
-        self.playButton = Button(self.screen, PB_NAME, BUTTON_FONT, PB_CX, PB_CY, PB_LX, PB_RX, PB_LY, PB_RY)
-        self.mainMenuButton = Button(self.screen, MM_NAME, BUTTON_FONT, MM_CX, MM_CY, MM_LX, MM_RX, MM_LY, MM_RY)
         pygame.display.set_caption('Feeding Frenzy')
     
     # makes scene and updates display by calling flip()
@@ -196,19 +196,11 @@ class FeedingFrenzy():
         self.candy.draw()
         self.fish.draw()
 
+        scoreText = SCORE_FONT.render('High Score: ' + str(self.highScore) + '  Score: ' + str(self.score), True, SCORE_COLOR)
+        
         if (self.gameEnd):
-            pygame.draw.rect(self.screen, CHARCOAL, RESTART_SCREEN_POS)
-            self.screen.blit(FEEDINGFRENZY_TEXT, FEEDINGFRENZY_RECT)
-
-            scoreText = SCORE_FONT.render('High Score: ' + str(self.highScore) + '  Score: ' + str(self.score), True, SCORE_COLOR)
-            scoreRect = scoreText.get_rect()
-            scoreRect.center = (SCREEN_WIDTH / 2, SCREEN_HEIGHT * 15 / 32)
-            self.screen.blit(scoreText, scoreRect)
-
-            self.playButton.draw()
-            self.mainMenuButton.draw()
+            self.gameMenu.draw(scoreText)
         else:
-            scoreText = SCORE_FONT.render('High Score: ' + str(self.highScore) + '  Score: ' + str(self.score), True, SCORE_COLOR)
             self.screen.blit(scoreText, (15, 15))
 
             if (self.speed):
@@ -285,7 +277,7 @@ class FeedingFrenzy():
 
     def onMouseEvent(self, event):
         if event.type == pygame.MOUSEBUTTONDOWN:
-            if (self.playButton.clicked(event.pos)):
+            if (self.gameMenu.playButtonClicked(event.pos)):
                 self.reset()
 
     # Effect: adds a new fish to the backgorund periodically
@@ -336,7 +328,7 @@ class FeedingFrenzy():
 
     # returns "MainMenu" if pressed
     def mainMenu(self, event):
-        if event.type == pygame.MOUSEBUTTONDOWN and self.mainMenuButton.clicked(event.pos):
+        if event.type == pygame.MOUSEBUTTONDOWN and self.gameMenu.mainMenuButtonClicked(event.pos):
             return "MainMenu"
         else:
             return ""

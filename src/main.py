@@ -9,12 +9,14 @@ def main_menu():
     pygame.display.set_caption('Main Menu')
     clock = pygame.time.Clock()
     
-    buttons = [
-        Button(screen, B1_NAME, BUTTON_FONT, B1_CX, B1_CY, B1_LX, B1_RX, B1_LY, B1_RY),
-        Button(screen, B2_NAME, BUTTON_FONT, B2_CX, B2_CY, B2_LX, B2_RX, B2_LY, B2_RY),
-        Button(screen, B3_NAME, BUTTON_FONT, B3_CX, B3_CY, B3_LX, B3_RX, B3_LY, B3_RY),
-        Button(screen, B4_NAME, BUTTON_FONT, B4_CX, B4_CY, B4_LX, B4_RX, B4_LY, B4_RY)
-    ]
+    gameNames = [FEEDINGFRENZY, TEMP_GAME_NAME, TEMP_GAME_NAME, TEMP_GAME_NAME, TEMP_GAME_NAME, TEMP_GAME_NAME, TEMP_GAME_NAME, TEMP_GAME_NAME, TEMP_GAME_NAME, TEMP_GAME_NAME, TEMP_GAME_NAME]
+
+    buttons = list()
+
+    for i in range(0, len(gameNames)):
+        buttons.append(Button(screen, GAME_BUTTON_WIDTH, GAME_BUTTON_HEIGHT, gameNames[i], GAME_BUTTON_FONT, 
+                              GAME_BASE_CX + GAME_BUTTON_WIDTH_SPACE * (i % GAME_BUTTONS_PER_ROW), 
+                              GAME_BASE_CY + GAME_BUTTON_HEIGHT_SPACE * math.floor(i / GAME_BUTTONS_PER_ROW)))
 
     # Main menu loop
     running = True
@@ -32,18 +34,10 @@ def main_menu():
                 pygame.quit()
                 sys.exit()
             elif event.type == pygame.MOUSEBUTTONDOWN:
-                if (buttons[0].clicked(event.pos)):
-                    running = False
-                    return B1_NAME
-                elif (buttons[1].clicked(event.pos)):
-                    running = False
-                    return MAINMENU
-                elif (buttons[2].clicked(event.pos)):
-                    running = False
-                    return MAINMENU
-                elif (buttons[3].clicked(event.pos)):
-                    running = False
-                    return MAINMENU
+                for i in range(0, len(buttons)):
+                    if (buttons[i].clicked(event.pos)):
+                        running = False
+                        return gameNames[i]
             elif event.type == pygame.KEYDOWN:
                 if (event.key == pygame.K_ESCAPE):
                     running = False
@@ -61,7 +55,9 @@ def main():
     while running:
         if (current_screen == MAINMENU):
             current_screen = main_menu()
-        elif (current_screen == B1_NAME):
+        if (current_screen == TEMP_GAME_NAME):
+            current_screen = main_menu()
+        elif (current_screen == FEEDINGFRENZY):
             feedingFrenzy = FeedingFrenzy()
             current_screen = feedingFrenzy.run()
         elif (current_screen == QUIT):

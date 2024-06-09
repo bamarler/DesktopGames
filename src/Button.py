@@ -4,16 +4,16 @@ from Constants import *
 pygame.init()
 
 class Button():
-    def __init__(self, screen, name, font, cx, cy, lx, rx, ly, ry):
+    def __init__(self, screen, width, height, name, font, cx, cy):
         self.screen = screen
         self.name = name
         self.font = font
         self.text = font.render(name, True, BUTTON_TEXT_COLOR)
         self.rect = self.text.get_rect(center=(cx, cy))
-        self.lx = lx
-        self.rx = rx
-        self.ly = ly
-        self.ry = ry
+        self.lx = cx - width / 2
+        self.rx = cx + width / 2
+        self.ly = cy - height / 2
+        self.ry = cy + height / 2
     
     def draw(self):
         pygame.draw.rect(self.screen, BUTTON_COLOR, (self.lx, self.ly, self.rx - self.lx, self.ry - self.ly))
