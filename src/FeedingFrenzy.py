@@ -337,10 +337,7 @@ class FeedingFrenzy():
 
     # returns "MainMenu" if pressed
     def mainMenu(self, event):
-        if event.type == pygame.MOUSEBUTTONDOWN and self.gameMenu.mainMenuButtonClicked(event.pos):
-            return "MainMenu"
-        else:
-            return ""
+        return self.gameMenu.mainMenuButtonClicked(event)
     
     # Runs the game
     def run(self):
@@ -353,7 +350,7 @@ class FeedingFrenzy():
                     return QUIT
                 self.onKeyEvent(event)
                 self.onMouseEvent(event)
-                if self.mainMenu(event) != "":
+                if self.mainMenu(event):
                     running = False
                     return MAINMENU
             

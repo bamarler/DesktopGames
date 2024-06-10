@@ -42,5 +42,6 @@ class GameMenu:
     def resumeButtonClicked(self, pos):
         return self.resumeButton.clicked(pos)
     
-    def mainMenuButtonClicked(self, pos):
-        return self.mainMenuButton.clicked(pos)
+    def mainMenuButtonClicked(self, event):
+        if event.type == pygame.MOUSEBUTTONDOWN:
+            return self.mainMenuButton.clicked(event.pos)

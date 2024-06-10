@@ -1,0 +1,33 @@
+import pygame
+from GamesConstants import *
+
+pygame.init()
+
+# name of this game
+SNAKEGAME_TEXT = GAMENAME_TEXT_FONT.render(SNAKEGAME, True, GAMENAME_TEXT_COLOR)
+
+# score constants
+SCORE_SIZE = SCREEN_WIDTH / 30
+SCORE_FONT = pygame.font.Font(None, int(SCORE_SIZE))
+SCORE_COLOR = (255, 255, 255)
+
+SIZE_TO_SCORE = SCREEN_AREA / 250000
+
+# unique constants for this game
+X_TILES = 15
+Y_TILES = 15
+
+TILE_SIZE = SCREEN_AREA / (X_TILES * Y_TILES * 100)
+SNAKE_HEAD_SIZE = TILE_SIZE / 1.5
+SNAKE_SIZE = SNAKE_HEAD_SIZE / 1.5
+
+TILE_BASE_X = CX - TILE_SIZE * X_TILES / 2
+TILE_BASE_Y = CY - TILE_SIZE * Y_TILES / 2
+
+SNAKE_BACKGROUND_COLOR = (44, 73, 23)
+SNAKE_COLOR = (3, 80, 150)
+TILE_COLOR_A = (109, 204, 61)
+TILE_COLOR_B = (86, 147, 47)
+
+APPLE_SIZE = SNAKE_HEAD_SIZE
+APPLE_COLOR = (220, 20, 60)

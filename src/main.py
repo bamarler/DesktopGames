@@ -2,6 +2,7 @@ import pygame
 import sys
 from MainMenuConstants import *
 from FeedingFrenzy import *
+from SnakeGame import *
 from TemplateGame import *
 from Button import *
 
@@ -10,7 +11,7 @@ def main_menu():
     pygame.display.set_caption('Main Menu')
     clock = pygame.time.Clock()
     
-    gameNames = [FEEDINGFRENZY, TEMPLATEGAME, TEMP_GAME_NAME, TEMP_GAME_NAME, TEMP_GAME_NAME, TEMP_GAME_NAME, TEMP_GAME_NAME, TEMP_GAME_NAME, TEMP_GAME_NAME, TEMP_GAME_NAME, TEMP_GAME_NAME]
+    gameNames = [FEEDINGFRENZY, SNAKEGAME, TEMPLATEGAME, TEMP_GAME_NAME, TEMP_GAME_NAME, TEMP_GAME_NAME, TEMP_GAME_NAME, TEMP_GAME_NAME, TEMP_GAME_NAME, TEMP_GAME_NAME, TEMP_GAME_NAME, TEMP_GAME_NAME]
 
     buttons = list()
 
@@ -24,6 +25,8 @@ def main_menu():
     while running:
         screen.fill(CHARCOAL)
 
+        screen.blit(DESKTOP_GAME_TEXT, DESKTOP_GAME_RECT)
+        
         for button in buttons:
             button.draw()
 
@@ -61,6 +64,9 @@ def main():
         elif (current_screen == FEEDINGFRENZY):
             feedingFrenzy = FeedingFrenzy()
             current_screen = feedingFrenzy.run()
+        elif (current_screen == SNAKEGAME):
+            snakeGame = SnakeGame()
+            current_screen = snakeGame.run()
         elif (current_screen == TEMPLATEGAME):
             templateGame = TemplateGame()
             current_screen = templateGame.run()
