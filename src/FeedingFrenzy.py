@@ -93,7 +93,7 @@ class Fish():
 # Background Fish Class
 class BackgroundFish(Fish):
     def __init__(self, screen, backgroundMaxSize):
-        super().__init__(screen, randint(0, int(backgroundMaxSize)), 0, randint(0, int(SCREEN_HEIGHT)), Util().convertNum(randint(0, 1)))
+        super().__init__(screen, randint(0, int(backgroundMaxSize)), 0, randint(0, int(SCREEN_HEIGHT)), convertNum(randint(0, 1)))
         self.color = (randint(0,255), randint(0,255), randint(0,255))
         self.vx = (random() / 2 + 0.5) * SPEED
 
@@ -335,10 +335,6 @@ class FeedingFrenzy():
         self.backgroundMaxSize = BACKGROUND_MAX_SIZE1
         self.populationCap = POPULATION_CAP1
 
-    # returns "MainMenu" if pressed
-    def mainMenu(self, event):
-        return self.gameMenu.mainMenuButtonClicked(event)
-    
     # Runs the game
     def run(self):
         clock = pygame.time.Clock()
@@ -350,7 +346,7 @@ class FeedingFrenzy():
                     return QUIT
                 self.onKeyEvent(event)
                 self.onMouseEvent(event)
-                if self.mainMenu(event):
+                if self.gameMenu.mainMenuButtonClicked(event):
                     running = False
                     return MAINMENU
             

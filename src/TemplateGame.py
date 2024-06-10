@@ -57,7 +57,7 @@ class TemplateGame():
 
     def onMouseEvent(self, event):
         if event.type == pygame.MOUSEBUTTONDOWN:
-            if (self.gameMenu.playButtonClicked(event.pos)):
+            if (self.gameEnd and self.gameMenu.playButtonClicked(event.pos)):
                 self.reset()
             if (self.pause and self.gameMenu.resumeButtonClicked(event.pos)):
                 self.pause = False
@@ -67,10 +67,6 @@ class TemplateGame():
         self.score = 0
         self.gameEnd = False
 
-    # returns "MainMenu" if pressed
-    def mainMenu(self, event):
-        return self.gameMenu.mainMenuButtonClicked(event)
-    
     # Runs the game
     def run(self):
         clock = pygame.time.Clock()
@@ -82,7 +78,7 @@ class TemplateGame():
                     return QUIT
                 self.onKeyEvent(event)
                 self.onMouseEvent(event)
-                if self.mainMenu(event):
+                if self.gameMenu.mainMenuButtonClicked(event):
                     running = False
                     return MAINMENU
             

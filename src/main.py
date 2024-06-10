@@ -11,7 +11,7 @@ def main_menu():
     pygame.display.set_caption('Main Menu')
     clock = pygame.time.Clock()
     
-    gameNames = [FEEDINGFRENZY, SNAKEGAME, TEMPLATEGAME, TEMP_GAME_NAME, TEMP_GAME_NAME, TEMP_GAME_NAME, TEMP_GAME_NAME, TEMP_GAME_NAME, TEMP_GAME_NAME, TEMP_GAME_NAME, TEMP_GAME_NAME, TEMP_GAME_NAME]
+    gameNames = [FEEDINGFRENZY, SNAKEGAME, TEMPLATEGAME, TEMP_GAME_NAME, TEMP_GAME_NAME]
 
     buttons = list()
 
@@ -26,7 +26,7 @@ def main_menu():
         screen.fill(CHARCOAL)
 
         screen.blit(DESKTOP_GAME_TEXT, DESKTOP_GAME_RECT)
-        
+
         for button in buttons:
             button.draw()
 
