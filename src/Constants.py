@@ -24,5 +24,6 @@ BUTTON_TEXT_COLOR = CHARCOAL
 
 # constants representing each game
 TEMP_GAME_NAME = "EXAMPLE GAME"
+TEMPLATEGAME = "Template Game"
 FEEDINGFRENZY = "Feeding Frenzy"
 

@@ -180,6 +180,7 @@ class FeedingFrenzy():
         self.grow = False
         self.speed = False
         self.gameEnd = True
+        self.pause = False
         self.candy = Candy(self.screen)
         self.timer = 0
         self.backgroundMaxSize = BACKGROUND_MAX_SIZE1
@@ -199,7 +200,9 @@ class FeedingFrenzy():
         scoreText = SCORE_FONT.render('High Score: ' + str(self.highScore) + '  Score: ' + str(self.score), True, SCORE_COLOR)
         
         if (self.gameEnd):
-            self.gameMenu.draw(scoreText)
+            self.gameMenu.drawPlay(scoreText)
+        elif (self.pause):
+            self.gameMenu.drawPause(scoreText)
         else:
             self.screen.blit(scoreText, (15, 15))
 
@@ -218,6 +221,8 @@ class FeedingFrenzy():
         if (self.gameEnd):
             for i in range(len(self.background)):
                 self.background[i].endMoveBackground()
+        elif (self.pause):
+            pass
         else:
             self.addBackgroundFish()
 
@@ -257,6 +262,8 @@ class FeedingFrenzy():
     # Effect: changes our direction parameters or resets the game
     def onKeyEvent(self, event):
         if event.type == pygame.KEYDOWN:
+            if event.key == pygame.K_ESCAPE:
+                self.pause = True
             if event.key == pygame.K_LEFT:
                 self.directionX = -1
             elif event.key == pygame.K_RIGHT:
@@ -277,8 +284,10 @@ class FeedingFrenzy():
 
     def onMouseEvent(self, event):
         if event.type == pygame.MOUSEBUTTONDOWN:
-            if (self.gameMenu.playButtonClicked(event.pos)):
+            if (self.gameEnd and self.gameMenu.playButtonClicked(event.pos)):
                 self.reset()
+            if (self.pause and self.gameMenu.resumeButtonClicked(event.pos)):
+                self.pause = False
 
     # Effect: adds a new fish to the backgorund periodically
     def addBackgroundFish(self):
