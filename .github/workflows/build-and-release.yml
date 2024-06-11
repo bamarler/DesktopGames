@@ -33,14 +33,6 @@ jobs:
       env:
         DISPLAY: ':99.0'  # For Ubuntu
 
-    - name: List dist directory contents (Debug)
-      run: |
-        if exist "dist" (
-          dir dist
-        ) else (
-          ls -la dist
-        )
-
     - name: Archive the build artifacts
       uses: actions/upload-artifact@v2
       with:
