@@ -73,7 +73,7 @@ jobs:
         GITHUB_TOKEN: ${{ secrets.DESKTOP_GAMES_TOKEN }}
       with:
         upload_url: ${{ steps.create_release.outputs.upload_url }}
-        asset_path: ./dist/main_ubuntu
+        asset_path: ./dist/main
         asset_name: main
         asset_content_type: application/octet-stream
 
@@ -83,7 +83,7 @@ jobs:
         GITHUB_TOKEN: ${{ secrets.DESKTOP_GAMES_TOKEN }}
       with:
         upload_url: ${{ steps.create_release.outputs.upload_url }}
-        asset_path: ./dist/main_macos
+        asset_path: ./dist/main
         asset_name: main
         asset_content_type: application/octet-stream
 
@@ -93,7 +93,7 @@ jobs:
         GITHUB_TOKEN: ${{ secrets.DESKTOP_GAMES_TOKEN }}
       with:
         upload_url: ${{ steps.create_release.outputs.upload_url }}
-        asset_path: ./dist/main_windows
+        asset_path: ./dist/main.exe
         asset_name: main.exe
         asset_content_type: application/octet-stream
         
