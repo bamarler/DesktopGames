@@ -34,7 +34,7 @@ jobs:
         DISPLAY: ':99.0'  # For Ubuntu
 
     - name: List dist directory contents (Debug)
-      run: ls -la dist/
+      run: dir dist/
 
     - name: Archive the build artifacts
       uses: actions/upload-artifact@v2
