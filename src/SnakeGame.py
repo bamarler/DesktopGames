@@ -64,8 +64,6 @@ class SnakeHead(SnakeSegment):
         else:
             covered = covered[int(3 * SNAKE_SEGS_PER_TILE):]
 
-        print(str(covered))
-
         for tile in covered:
             if self.currTile == tile:
                 return True
@@ -138,7 +136,7 @@ class SnakeGame():
 
         if (self.gameEnd):
             self.gameMenu.drawPlay(scoreText)
-        if (self.pause):
+        elif (self.pause):
             self.gameMenu.drawPause(scoreText)
         else:
             scoreRect = scoreText.get_rect()
@@ -152,7 +150,7 @@ class SnakeGame():
     def onTick(self):
         if (self.gameEnd):
             self.snakeHead.turn((0,0))
-        if (self.pause):
+        elif (self.pause):
             pass
         else:
             self.snakeHead.move()
@@ -179,8 +177,7 @@ class SnakeGame():
             
             #print(str(self.coveredTiles))
 
-            if (self.snakeHead.dead(self.coveredTiles)):
-                self.gameEnd = True
+            self.gameEnd = self.snakeHead.dead(self.coveredTiles)
             
 
         if (self.highScore < self.score):

@@ -26,7 +26,7 @@ class TemplateGame():
         
         if (self.gameEnd):
             self.gameMenu.drawPlay(scoreText)
-        if (self.pause):
+        elif (self.pause):
             self.gameMenu.drawPause(scoreText)
         else:
             pass
@@ -38,7 +38,7 @@ class TemplateGame():
     def onTick(self):
         if (self.gameEnd):
             pass
-        if (self.pause):
+        elif (self.pause):
             pass
         else:
             pass
