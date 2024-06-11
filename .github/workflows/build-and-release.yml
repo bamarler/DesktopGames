@@ -66,25 +66,15 @@ jobs:
       env:
         GH_TOKEN: ${{ secrets.DESKTOP_GAMES_TOKEN }}
     
+    - name: Upload Release Asset
+      run: |
+        if [[ "${{ runner.os }}" == "Linux" ]]; then
+          gh release upload ${{ github.ref }} ./dist/main --clobber
+        elif [[ "${{ runner.os }}" == "macOS" ]]; then
+          gh release upload ${{ github.ref }} ./dist/main --clobber
+        elif [[ "${{ runner.os }}" == "Windows" ]]; then
+          gh release upload ${{ github.ref }} ./dist/main.exe --clobber
+        fi
+      env:
+        GH_TOKEN: ${{ secrets.DESKTOP_GAMES_TOKEN }}
     
-    - name: Upload Release Asset (Linux)
-      if: matrix.os == 'ubuntu-latest'
-      run: |
-        gh release upload ${{ github.ref }} ./dist/main --clobber
-      env:
-        GH_TOKEN: ${{ secrets.DESKTOP_GAMES_TOKEN }}
-      
-    - name: Upload Release Asset (macOS)
-      if: matrix.os == 'macos-latest'
-      run: |
-        gh release upload ${{ github.ref }} ./dist/main --clobber
-      env:
-        GH_TOKEN: ${{ secrets.DESKTOP_GAMES_TOKEN }}
-      
-    - name: Upload Release Asset (Windows)
-      if: matrix.os == 'windows-latest'
-      run: |
-        gh release upload ${{ github.ref }} ./dist/main.exe --clobber
-      env:
-        GH_TOKEN: ${{ secrets.DESKTOP_GAMES_TOKEN }}
-      
