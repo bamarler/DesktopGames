@@ -9,15 +9,15 @@
     "build": {
         "appId": "com.desktopgames.app",
         "mac": {
-            "productName": "desktop-games-macos-latest",
+            "artifactName": "desktop-games-macos-latest",
             "target": "dmg"
         },
         "win": {
-            "productName": "desktop-games-windows-latest",
+            "artifactName": "desktop-games-windows-latest",
             "target": "nsis"
         },
         "linux": {
-            "productName": "desktop-games-ubuntu-latest",
+            "artifactName": "desktop-games-ubuntu-latest",
             "target": "AppImage"
         },
         "files": [
