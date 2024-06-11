@@ -67,6 +67,10 @@ jobs:
         draft: false
         prerelease: false
 
+    - name: Set release outputs
+      run: echo ::set-output name=upload_url::${{ steps.create_release.outputs.upload_url }}
+      id: upload_url
+    
     - name: Upload Release Asset (Linux)
       if: matrix.os == 'ubuntu-latest'
       uses: actions/upload-release-asset@v1
