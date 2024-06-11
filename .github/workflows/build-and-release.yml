@@ -61,7 +61,7 @@ jobs:
       run: |
         gh release create ${{ github.ref }} \
         --repo="$GITHUB_REPOSITORY" \
-        --title="${GITHUB_REPOSITORY#*/} ${tag#v}" \
+        --title="${{ github.ref }} ${tag#v}" \
         --generate-notes
       env:
         GH_TOKEN: ${{ secrets.DESKTOP_GAMES_TOKEN }}
@@ -71,7 +71,7 @@ jobs:
         for file in ./dist/*; do
           curl \
             -X POST \
-            -H "Authorization: token ${{ secrets.GITHUB_TOKEN }}" \
+            -H "Authorization: token ${{ secrets.DESKTOP_GAMES_TOKEN }}" \
             -H "Content-Type: $(file -b --mime-type $file)" \
             --data-binary @$file \
             "https://uploads.github.com/repos/${GITHUB_REPOSITORY}/releases/${{ steps.create_release.outputs.id }}/assets?name=$(basename $file)"
