@@ -49,7 +49,7 @@ jobs:
 
     - name: Build with PyInstaller
       run: |
-        pyinstaller --onefile src/main.py
+        pyinstaller --onefile -n main-${{ matrix.os}} src/main.py
       env:
         DISPLAY: ':99.0'  # For Ubuntu
 
@@ -59,6 +59,6 @@ jobs:
         GITHUB_TOKEN: ${{ secrets.DESKTOP_GAMES_TOKEN }}
       with:
         upload_url: ${{ needs.release.outputs.upload_url }}
-        asset_path: ./dist/main
+        asset_path: ./dist/main-${{ matrix.os}}
         asset_name: main
         asset_content_type: application/octet-stream
