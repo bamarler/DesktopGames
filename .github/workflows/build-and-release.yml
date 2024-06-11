@@ -70,33 +70,22 @@ jobs:
     
     - name: Upload Release Asset (Linux)
       if: matrix.os == 'ubuntu-latest'
-      uses: actions/upload-release-asset@v1
+      run: |
+        gh release upload ${{ github.ref }} ./dist/main --clobber
       env:
-        GITHUB_TOKEN: ${{ secrets.DESKTOP_GAMES_TOKEN }}
-      with:
-        upload_url: ${{ env.GITHUB_RELEASE }}
-        asset_path: ./dist/main
-        asset_name: main-linux
-        asset_content_type: application/octet-stream
-
+        GH_TOKEN: ${{ secrets.DESKTOP_GAMES_TOKEN }}
+      
     - name: Upload Release Asset (macOS)
       if: matrix.os == 'macos-latest'
-      uses: actions/upload-release-asset@v1
+      run: |
+        gh release upload ${{ github.ref }} ./dist/main --clobber
       env:
-        GITHUB_TOKEN: ${{ secrets.DESKTOP_GAMES_TOKEN }}
-      with:
-        upload_url: ${{ env.GITHUB_RELEASE }}
-        asset_path: ./dist/main
-        asset_name: main-macos
-        asset_content_type: application/octet-stream
-
+        GH_TOKEN: ${{ secrets.DESKTOP_GAMES_TOKEN }}
+      
     - name: Upload Release Asset (Windows)
       if: matrix.os == 'windows-latest'
-      uses: actions/upload-release-asset@v1
+      run: |
+        gh release upload ${{ github.ref }} ./dist/main.exe --clobber
       env:
-        GITHUB_TOKEN: ${{ secrets.DESKTOP_GAMES_TOKEN }}
-      with:
-        upload_url: ${{ env.GITHUB_RELEASE }}
-        asset_path: ./dist/main.exe
-        asset_name: main-windows.exe
-        asset_content_type: application/octet-stream
+        GH_TOKEN: ${{ secrets.DESKTOP_GAMES_TOKEN }}
+      
