@@ -43,6 +43,10 @@ jobs:
     - name: Install dependencies
       run: npm install
 
+    - name: Set permissions for electron-builder
+      run: chmod +x ./node_modules/.bin/electron-builder
+      if: runner.os != 'Windows'
+
     - name: Build with Electron Builder
       run: npm run build
       env:
