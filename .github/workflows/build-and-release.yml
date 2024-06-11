@@ -74,7 +74,7 @@ jobs:
       with:
         upload_url: ${{ steps.create_release.outputs.upload_url }}
         asset_path: ./dist/main_ubuntu
-        asset_name: main_ubuntu
+        asset_name: main
         asset_content_type: application/octet-stream
 
     - name: Upload release assets for MacOS
@@ -84,7 +84,7 @@ jobs:
       with:
         upload_url: ${{ steps.create_release.outputs.upload_url }}
         asset_path: ./dist/main_macos
-        asset_name: main_macos
+        asset_name: main
         asset_content_type: application/octet-stream
 
     - name: Upload release assets for Windows
@@ -94,6 +94,6 @@ jobs:
       with:
         upload_url: ${{ steps.create_release.outputs.upload_url }}
         asset_path: ./dist/main_windows
-        asset_name: main_windows
+        asset_name: main.exe
         asset_content_type: application/octet-stream
         
