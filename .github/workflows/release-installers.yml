@@ -1,0 +1,52 @@
+name: Build and Release
+
+on:
+  push:
+    tags:
+      - 'v*'
+
+jobs:
+  release:
+    runs-on: ubuntu-latest
+    outputs:
+      upload_url: ${{ steps.create_release.outputs.upload_url }}
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v2
+
+    - name: Create Release
+      id: create_release
+      uses: actions/create-release@v1
+      env:
+        GITHUB_TOKEN: ${{ secrets.DESKTOP_GAMES_TOKEN }}
+      with:
+        tag_name: ${{ github.ref }}
+        release_name: ${{ github.ref }}
+        draft: false
+        prerelease: false
+
+    - name: Prepare release assets
+      run: |
+        # Create a zip file of the source code
+        git archive -o source_code.zip HEAD
+        # Copy installer scripts to a release directory
+        mkdir release_assets
+        cp installers/install_windows.bat release_assets/
+        cp installers/install_unix.sh release_assets/
+        cp source_code.zip release_assets/
+
+    - name: Upload release assets
+      uses: actions/upload-release-asset@v1
+      env:
+        GITHUB_TOKEN: ${{ secrets.DESKTOP_GAMES_TOKEN }}
+      with:
+        upload_url: ${{ steps.create_release.outputs.upload_url }}
+        asset_path: |
+          release_assets/install_windows.bat
+          release_assets/install_unix.sh
+          release_assets/source_code.zip
+        asset_name: |
+          install_windows.bat
+          install_unix.sh
+          source_code.zip
+        asset_content_type: application/octet-stream
