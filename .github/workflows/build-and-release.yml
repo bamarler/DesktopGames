@@ -58,21 +58,42 @@ jobs:
 
     - name: Create Release
       id: create_release
-      run: |
-        gh release create ${{ github.ref }} \
-        --repo="$GITHUB_REPOSITORY" \
-        --title="${{ github.ref }} ${tag#v}" \
-        --generate-notes
+      uses: actions/create-release@v1
       env:
-        GH_TOKEN: ${{ secrets.DESKTOP_GAMES_TOKEN }}
-    
-    - name: Upload release assets
-      run: |
-        for file in ./dist/*; do
-          curl \
-            -X POST \
-            -H "Authorization: token ${{ secrets.DESKTOP_GAMES_TOKEN }}" \
-            -H "Content-Type: $(file -b --mime-type $file)" \
-            --data-binary @$file \
-            "https://uploads.github.com/repos/${GITHUB_REPOSITORY}/releases/${{ steps.create_release.outputs.id }}/assets?name=$(basename $file)"
-        done
+        GITHUB_TOKEN: ${{ secrets.DESKTOP_GAMES_TOKEN }}
+      with:
+        tag_name: ${{ github.ref }}
+        release_name: ${{ github.ref }}
+        draft: false
+        prerelease: false
+
+    - name: Upload release assets for Ubuntu
+      uses: actions/upload-release-asset@v1
+      env:
+        GITHUB_TOKEN: ${{ secrets.DESKTOP_GAMES_TOKEN }}
+      with:
+        upload_url: ${{ steps.create_release.outputs.upload_url }}
+        asset_path: ./dist/main_ubuntu
+        asset_name: main_ubuntu
+        asset_content_type: application/octet-stream
+
+    - name: Upload release assets for MacOS
+      uses: actions/upload-release-asset@v1
+      env:
+        GITHUB_TOKEN: ${{ secrets.DESKTOP_GAMES_TOKEN }}
+      with:
+        upload_url: ${{ steps.create_release.outputs.upload_url }}
+        asset_path: ./dist/main_macos
+        asset_name: main_macos
+        asset_content_type: application/octet-stream
+
+    - name: Upload release assets for Windows
+      uses: actions/upload-release-asset@v1
+      env:
+        GITHUB_TOKEN: ${{ secrets.DESKTOP_GAMES_TOKEN }}
+      with:
+        upload_url: ${{ steps.create_release.outputs.upload_url }}
+        asset_path: ./dist/main_windows
+        asset_name: main_windows
+        asset_content_type: application/octet-stream
+        
