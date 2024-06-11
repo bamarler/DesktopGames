@@ -57,7 +57,9 @@ jobs:
       run: chmod +x ./node_modules/.bin/electron-builder
 
     - name: Build with Electron Builder
-      run: npm run build
+      run: |
+        mkdir dist
+        npm run build
       env:
         GH_TOKEN: ${{ secrets.DESKTOP_GAMES_TOKEN }}
 
