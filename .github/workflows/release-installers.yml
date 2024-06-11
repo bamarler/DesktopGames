@@ -66,14 +66,14 @@ jobs:
       run: |
         echo "OS_NAME=${{ matrix.os }}"
         if [ "${{ matrix.os }}" == "windows-latest" ]; then
-          echo "::set-output name=asset_path::./dist/desktop-games-installer-${{ matrix.os }}.exe"
-          echo "::set-output name=asset_name::desktop-games-installer-${{ matrix.os }}.exe"
+          echo "::set-output name=asset_path::./dist/desktop-games-${{ matrix.os }}.exe"
+          echo "::set-output name=asset_name::desktop-games-${{ matrix.os }}.exe"
         elif [ "${{ matrix.os }}" == "macos-latest" ]; then
-          echo "::set-output name=asset_path::./dist/desktop-games-installer-${{ matrix.os }}.dmg"
-          echo "::set-output name=asset_name::desktop-games-installer-${{ matrix.os }}.dmg"
+          echo "::set-output name=asset_path::./dist/desktop-games-${{ matrix.os }}.dmg"
+          echo "::set-output name=asset_name::desktop-games-${{ matrix.os }}.dmg"
         else
-          echo "::set-output name=asset_path::./dist/desktop-games-installer-${{ matrix.os }}.AppImage"
-          echo "::set-output name=asset_name::desktop-games-installer-${{ matrix.os }}.AppImage"
+          echo "::set-output name=asset_path::./dist/desktop-games-${{ matrix.os }}.AppImage"
+          echo "::set-output name=asset_name::desktop-games-${{ matrix.os }}.AppImage"
         fi
       shell: bash
       
