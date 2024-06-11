@@ -66,10 +66,6 @@ jobs:
         release_name: Release ${{ github.ref }}
         draft: false
         prerelease: false
-
-    - name: Set release outputs
-      run: echo name=upload_url::${{ steps.create_release.outputs.upload_url }} >> $GITHUB_OUTPUT
-      id: upload_url
     
     - name: Upload Release Asset (Linux)
       if: matrix.os == 'ubuntu-latest'
