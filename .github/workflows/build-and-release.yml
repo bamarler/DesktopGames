@@ -35,11 +35,11 @@ jobs:
 
     - name: List dist directory contents (Debug)
       run: |
-        if [ -d "dist" ]; then
-          ls -la dist/
-        else
+        if exist "dist" (
           dir dist
-        fi
+        ) else (
+          ls -la dist
+        )
 
     - name: Archive the build artifacts
       uses: actions/upload-artifact@v2
