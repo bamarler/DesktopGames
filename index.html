@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Desktop Games Installer</title>
+</head>
+<body>
+  <h1>Installing Desktop Games...</h1>
+  <pre id="output"></pre>
+  <script>
+    const { exec } = require('child_process');
+    const path = require('path');
+    const isWindows = process.platform === 'win32';
+
+    const scriptPath = path.join(__dirname, isWindows ? 'installers/install_windows.bat' : 'installers/install_unix.sh');
+    
+    exec(`${isWindows ? '' : 'bash '}${scriptPath}`, (error, stdout, stderr) => {
+      if (error) {
+        document.getElementById('output').innerText = `Error: ${error}`;
+        return;
+      }
+      document.getElementById('output').innerText = stdout + stderr;
+    });
+  </script>
+</body>
+</html>

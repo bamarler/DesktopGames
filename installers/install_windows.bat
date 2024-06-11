@@ -1,8 +1,9 @@
 @echo off
 setlocal
 
-:: Set the path where the game will be installed
-set INSTALL_PATH=%USERPROFILE%\Desktop\Desktop Games
+:: Determine the user's desktop path
+for /f "tokens=2* delims=:" %%a in ('reg query "HKCU\Software\Microsoft\Windows\CurrentVersion\Explorer\Shell Folders" /v "Desktop"') do set DESKTOP_PATH=%%b
+set INSTALL_PATH=%DESKTOP_PATH%\Desktop Games
 
 :: Create the install directory if it doesn't exist
 if not exist "%INSTALL_PATH%" (
@@ -34,4 +35,5 @@ rd /s /q dist
 del "%INSTALL_PATH%\source_code.zip"
 
 echo Game installed successfully at "%INSTALL_PATH%"
+pause
 endlocal

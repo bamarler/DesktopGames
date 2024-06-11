@@ -25,43 +25,51 @@ jobs:
         draft: false
         prerelease: false
 
-    - name: Prepare release assets
+  build:
+    needs: release
+    runs-on: ${{ matrix.os }}
+    strategy:
+      matrix:
+        os: [ubuntu-latest, macos-latest, windows-latest]
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v2
+
+    - name: Set up Node.js
+      uses: actions/setup-node@v2
+      with:
+        node-version: '14'
+
+    - name: Install dependencies
+      run: npm install
+
+    - name: Build with Electron Builder
+      run: npm run build
+      env:
+        GH_TOKEN: ${{ secrets.DESKTOP_GAMES_TOKEN }}
+
+    - name: Set asset path and name
+      id: set_asset
       run: |
-        # Create a zip file of the source code
-        git archive -o source_code.zip HEAD
-        # Create the release_assets directory
-        mkdir -p release_assets
-        # Copy installer scripts to the release_assets directory
-        cp installers/install_windows.bat release_assets/
-        cp installers/install_unix.sh release_assets/
-        cp source_code.zip release_assets/
-
-    - name: Upload install_windows.bat
+        echo "OS_NAME=${{ matrix.os }}"
+        if [ "${{ matrix.os }}" == "windows-latest" ]; then
+          echo "::set-output name=asset_path::./dist/desktop-games-Setup.exe"
+          echo "::set-output name=asset_name::desktop-games-Setup.exe"
+        elif [ "${{ matrix.os }}" == "macos-latest" ]; then
+          echo "::set-output name=asset_path::./dist/desktop-games.dmg"
+          echo "::set-output name=asset_name::desktop-games.dmg"
+        else
+          echo "::set-output name=asset_path::./dist/desktop-games.AppImage"
+          echo "::set-output name=asset_name::desktop-games.AppImage"
+        fi
+      shell: bash
+      
+    - name: Upload release assets
       uses: actions/upload-release-asset@v1
       env:
         GITHUB_TOKEN: ${{ secrets.DESKTOP_GAMES_TOKEN }}
       with:
-        upload_url: ${{ steps.create_release.outputs.upload_url }}
-        asset_path: release_assets/install_windows.bat
-        asset_name: install_windows.bat
-        asset_content_type: application/octet-stream
-
-    - name: Upload install_unix.sh
-      uses: actions/upload-release-asset@v1
-      env:
-        GITHUB_TOKEN: ${{ secrets.DESKTOP_GAMES_TOKEN }}
-      with:
-        upload_url: ${{ steps.create_release.outputs.upload_url }}
-        asset_path: release_assets/install_unix.sh
-        asset_name: install_unix.sh
-        asset_content_type: application/octet-stream
-
-    - name: Upload source_code.zip
-      uses: actions/upload-release-asset@v1
-      env:
-        GITHUB_TOKEN: ${{ secrets.DESKTOP_GAMES_TOKEN }}
-      with:
-        upload_url: ${{ steps.create_release.outputs.upload_url }}
-        asset_path: release_assets/source_code.zip
-        asset_name: source_code.zip
+        upload_url: ${{ needs.release.outputs.upload_url }}
+        asset_path: ${{ steps.set_asset.outputs.asset_path }}
+        asset_name: ${{ steps.set_asset.outputs.asset_name }}
         asset_content_type: application/octet-stream

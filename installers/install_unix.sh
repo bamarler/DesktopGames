@@ -1,7 +1,8 @@
 #!/bin/bash
 
-# Set the path where the game will be installed
-INSTALL_PATH="$HOME/Desktop/Desktop Games"
+# Determine the user's desktop path
+DESKTOP_PATH="$HOME/Desktop"
+INSTALL_PATH="$DESKTOP_PATH/Desktop Games"
 
 # Create the install directory if it doesn't exist
 mkdir -p "$INSTALL_PATH"
