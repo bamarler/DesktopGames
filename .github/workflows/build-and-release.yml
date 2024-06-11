@@ -66,15 +66,13 @@ jobs:
       env:
         GH_TOKEN: ${{ secrets.DESKTOP_GAMES_TOKEN }}
     
-    - name: Upload Release Asset
+    - name: Upload release assets
       run: |
-        if [[ "${{ runner.os }}" == "Linux" ]]; then
-          gh release upload ${{ github.ref }} ./dist/main --clobber
-        elif [[ "${{ runner.os }}" == "macOS" ]]; then
-          gh release upload ${{ github.ref }} ./dist/main --clobber
-        elif [[ "${{ runner.os }}" == "Windows" ]]; then
-          gh release upload ${{ github.ref }} ./dist/main.exe --clobber
-        fi
-      env:
-        GH_TOKEN: ${{ secrets.DESKTOP_GAMES_TOKEN }}
-    
+        for file in ./dist/*; do
+          curl \
+            -X POST \
+            -H "Authorization: token ${{ secrets.GITHUB_TOKEN }}" \
+            -H "Content-Type: $(file -b --mime-type $file)" \
+            --data-binary @$file \
+            "https://uploads.github.com/repos/${GITHUB_REPOSITORY}/releases/${{ steps.create_release.outputs.id }}/assets?name=$(basename $file)"
+        done
