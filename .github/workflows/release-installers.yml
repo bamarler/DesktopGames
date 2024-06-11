@@ -29,24 +29,39 @@ jobs:
       run: |
         # Create a zip file of the source code
         git archive -o source_code.zip HEAD
-        # Copy installer scripts to a release directory
-        mkdir release_assets
+        # Create the release_assets directory
+        mkdir -p release_assets
+        # Copy installer scripts to the release_assets directory
         cp installers/install_windows.bat release_assets/
         cp installers/install_unix.sh release_assets/
         cp source_code.zip release_assets/
 
-    - name: Upload release assets
+    - name: Upload install_windows.bat
       uses: actions/upload-release-asset@v1
       env:
         GITHUB_TOKEN: ${{ secrets.DESKTOP_GAMES_TOKEN }}
       with:
         upload_url: ${{ steps.create_release.outputs.upload_url }}
-        asset_path: |
-          release_assets/install_windows.bat
-          release_assets/install_unix.sh
-          release_assets/source_code.zip
-        asset_name: |
-          install_windows.bat
-          install_unix.sh
-          source_code.zip
+        asset_path: release_assets/install_windows.bat
+        asset_name: install_windows.bat
+        asset_content_type: application/octet-stream
+
+    - name: Upload install_unix.sh
+      uses: actions/upload-release-asset@v1
+      env:
+        GITHUB_TOKEN: ${{ secrets.DESKTOP_GAMES_TOKEN }}
+      with:
+        upload_url: ${{ steps.create_release.outputs.upload_url }}
+        asset_path: release_assets/install_unix.sh
+        asset_name: install_unix.sh
+        asset_content_type: application/octet-stream
+
+    - name: Upload source_code.zip
+      uses: actions/upload-release-asset@v1
+      env:
+        GITHUB_TOKEN: ${{ secrets.DESKTOP_GAMES_TOKEN }}
+      with:
+        upload_url: ${{ steps.create_release.outputs.upload_url }}
+        asset_path: release_assets/source_code.zip
+        asset_name: source_code.zip
         asset_content_type: application/octet-stream
