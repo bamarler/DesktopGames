@@ -57,13 +57,14 @@ jobs:
       id: set_asset
       run: |
         echo "OS_NAME=${{ matrix.os }}"
-        if [[ "${{ matrix.os }}" == "windows-latest" ]]; then
+        if [ "${{ matrix.os }}" == "windows-latest" ]; then
           echo "::set-output name=asset_path::./dist/main-${{ matrix.os }}.exe"
           echo "::set-output name=asset_name::main-${{ matrix.os }}.exe"
         else
           echo "::set-output name=asset_path::./dist/main-${{ matrix.os }}"
           echo "::set-output name=asset_name::main-${{ matrix.os }}"
         fi
+      shell: bash
       
     - name: Upload release assets
       uses: actions/upload-release-asset@v1
