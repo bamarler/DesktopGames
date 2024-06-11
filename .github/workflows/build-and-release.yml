@@ -6,7 +6,25 @@ on:
       - 'v*'
 
 jobs:
+  release:
+    runs-on: ubuntu-latest
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v2
+
+    - name: Create Release
+      id: create_release
+      uses: actions/create-release@v1
+      env:
+        GITHUB_TOKEN: ${{ secrets.DESKTOP_GAMES_TOKEN }}
+      with:
+        tag_name: ${{ github.ref }}
+        release_name: ${{ github.ref }}
+        draft: false
+        prerelease: false
+
   build:
+    needs: release
     runs-on: ${{ matrix.os }}
     strategy:
       matrix:
@@ -33,67 +51,12 @@ jobs:
       env:
         DISPLAY: ':99.0'  # For Ubuntu
 
-    - name: Archive the build artifacts
-      uses: actions/upload-artifact@v2
-      with:
-        name: build-artifacts
-        path: dist/
-        retention-days: 1
-
-  release:
-    runs-on: ubuntu-latest
-    needs: build
-    steps:
-    - name: Checkout code
-      uses: actions/checkout@v2
-
-    - name: Download build artifacts
-      uses: actions/download-artifact@v2
-      with:
-        name: build-artifacts
-        path: ./dist
-
-    - name: List dist directory contents (Debug)
-      run: ls -la ./dist
-
-    - name: Create Release
-      id: create_release
-      uses: actions/create-release@v1
-      env:
-        GITHUB_TOKEN: ${{ secrets.DESKTOP_GAMES_TOKEN }}
-      with:
-        tag_name: ${{ github.ref }}
-        release_name: ${{ github.ref }}
-        draft: false
-        prerelease: false
-
-    - name: Upload release assets for Ubuntu
+    - name: Upload release assets
       uses: actions/upload-release-asset@v1
       env:
         GITHUB_TOKEN: ${{ secrets.DESKTOP_GAMES_TOKEN }}
       with:
-        upload_url: ${{ steps.create_release.outputs.upload_url }}
+        upload_url: ${{ needs.release.outputs.upload_url }}
         asset_path: ./dist/main
         asset_name: main
         asset_content_type: application/octet-stream
-
-    - name: Upload release assets for MacOS
-      uses: actions/upload-release-asset@v1
-      env:
-        GITHUB_TOKEN: ${{ secrets.DESKTOP_GAMES_TOKEN }}
-      with:
-        upload_url: ${{ steps.create_release.outputs.upload_url }}
-        asset_path: ./dist/main
-        asset_name: main
-        asset_content_type: application/octet-stream
-
-    - name: Upload release assets for Windows
-      uses: actions/upload-release-asset@v1
-      env:
-        GITHUB_TOKEN: ${{ secrets.DESKTOP_GAMES_TOKEN }}
-      with:
-        upload_url: ${{ steps.create_release.outputs.upload_url }}
-        asset_path: ./dist/main.exe
-        asset_name: main.exe
-        asset_content_type: application/octet-stream
-        
