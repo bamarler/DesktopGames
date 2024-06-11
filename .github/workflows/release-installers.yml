@@ -55,19 +55,25 @@ jobs:
     - name: Set permissions for electron-builder
       if: runner.os != 'Windows'
       run: chmod +x ./node_modules/.bin/electron-builder
-
-    - name: Create dist directory
-      run: |
-        cd $GITHUB_WORKSPACE
-        mkdir dist
     
     - name: Set permissions for dist directory
       if: runner.os != 'Windows'
       run: chmod 777 dist
 
-    - name: Build with Electron Builder
+    - name: Build with Electron Builder (Windows)
+      if: runner.os == 'Windows'
+      run: |
+        cd %GITHUB_WORKSPACE%
+        mkdir dist
+        npm run build
+      env:
+        GH_TOKEN: ${{ secrets.DESKTOP_GAMES_TOKEN }}
+    
+    - name: Build with Electron Builder (Unix)
+      if: runner.os != 'Windows'
       run: |
         cd $GITHUB_WORKSPACE
+        mkdir dist
         npm run build
       env:
         GH_TOKEN: ${{ secrets.DESKTOP_GAMES_TOKEN }}
