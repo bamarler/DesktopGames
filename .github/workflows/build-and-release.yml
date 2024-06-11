@@ -61,6 +61,7 @@ jobs:
       uses: actions/create-release@v1
       env:
         GITHUB_TOKEN: ${{ secrets.DESKTOP_GAMES_TOKEN }}
+        GITHUB_RELEASE: ${{ steps.create_release.outputs.upload_url }}
       with:
         tag_name: ${{ github.ref }}
         release_name: Release ${{ github.ref }}
