@@ -52,13 +52,26 @@ jobs:
         pyinstaller --onefile -n main-${{ matrix.os}} src/main.py
       env:
         DISPLAY: ':99.0'  # For Ubuntu
-
+    
+    - name: Set asset path and name
+      id: set_asset
+      run: |
+        echo "OS_NAME=${{ matrix.os }}"
+        if [[ "${{ matrix.os }}" == "windows-latest" ]]; then
+          echo "::set-output name=asset_path::./dist/main-${{ matrix.os }}.exe"
+          echo "::set-output name=asset_name::main-${{ matrix.os }}.exe"
+        else
+          echo "::set-output name=asset_path::./dist/main-${{ matrix.os }}"
+          echo "::set-output name=asset_name::main-${{ matrix.os }}"
+        fi
+      
     - name: Upload release assets
       uses: actions/upload-release-asset@v1
       env:
         GITHUB_TOKEN: ${{ secrets.DESKTOP_GAMES_TOKEN }}
       with:
         upload_url: ${{ needs.release.outputs.upload_url }}
-        asset_path: ./dist/main-${{ matrix.os}}
-        asset_name: main-${{ matrix.os}}
+        asset_path: ${{ steps.set_asset.outputs.asset_path }}
+        asset_name: ${{ steps.set_asset.outputs.asset_name }}
         asset_content_type: application/octet-stream
+      
