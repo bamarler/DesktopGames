@@ -8,6 +8,9 @@
     },
     "build": {
         "appId": "com.desktopgames.app",
+        "directories": {
+            "output": "out"
+        },
         "mac": {
             "artifactName": "desktop-games-macos-latest",
             "target": "dmg"

@@ -30,7 +30,7 @@ jobs:
     runs-on: ${{ matrix.os }}
     strategy:
       matrix:
-        os: [ubuntu-latest]
+        os: [ubuntu-latest, macos-latest, windows-latest]
     steps:
     - name: Checkout code
       uses: actions/checkout@v2
@@ -56,42 +56,47 @@ jobs:
       if: runner.os != 'Windows'
       run: chmod +x ./node_modules/.bin/electron-builder
     
-    - name: Build with Electron Builder (Windows)
-      if: runner.os == 'Windows'
-      run: |
-        mkdir dist
-        npm run build
+    - name: Build with Electron Builder
+      run: npm run build
       env:
         GH_TOKEN: ${{ secrets.DESKTOP_GAMES_TOKEN }}
+        
+    #- name: Build with Electron Builder (Windows)
+    #  if: runner.os == 'Windows'
+    #  run: |
+    #    mkdir out
+    #    npm run build
+    #  env:
+    #    GH_TOKEN: ${{ secrets.DESKTOP_GAMES_TOKEN }}
     
-    - name: Build with Electron Builder (Unix)
-      if: runner.os != 'Windows'
-      run: |
-        cd $GITHUB_WORKSPACE
-        mkdir dist
-        chmod 777 dist
-        npm run build
-      env:
-        GH_TOKEN: ${{ secrets.DESKTOP_GAMES_TOKEN }}
+    #- name: Build with Electron Builder (Unix)
+    #  if: runner.os != 'Windows'
+    #  run: |
+    #    cd $GITHUB_WORKSPACE
+    #    mkdir out
+    #    chmod 777 out
+    #    npm run build
+    #  env:
+    #    GH_TOKEN: ${{ secrets.DESKTOP_GAMES_TOKEN }}
 
     - name: Set asset path and name
       id: set_asset
       run: |
         echo "OS_NAME=${{ matrix.os }}"
         if [ "${{ matrix.os }}" == "windows-latest" ]; then
-          echo "::set-output name=asset_path::./dist/desktop-games-${{ matrix.os }}.exe"
+          echo "::set-output name=asset_path::./out/desktop-games-${{ matrix.os }}.exe"
           echo "::set-output name=asset_name::desktop-games-${{ matrix.os }}.exe"
         elif [ "${{ matrix.os }}" == "macos-latest" ]; then
-          echo "::set-output name=asset_path::./dist/desktop-games-${{ matrix.os }}.dmg"
+          echo "::set-output name=asset_path::./out/desktop-games-${{ matrix.os }}.dmg"
           echo "::set-output name=asset_name::desktop-games-${{ matrix.os }}.dmg"
         else
-          echo "::set-output name=asset_path::./dist/desktop-games-${{ matrix.os }}.AppImage"
+          echo "::set-output name=asset_path::./out/desktop-games-${{ matrix.os }}.AppImage"
           echo "::set-output name=asset_name::desktop-games-${{ matrix.os }}.AppImage"
         fi
       shell: bash
       
     - name: Verify asset existence
-      run: ls ./dist
+      run: ls ./out
       shell: bash
 
     - name: Upload release assets
