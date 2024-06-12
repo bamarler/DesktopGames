@@ -55,29 +55,26 @@ jobs:
     - name: Set permissions for electron-builder
       if: runner.os != 'Windows'
       run: chmod +x ./node_modules/.bin/electron-builder
-    
-    - name: Build with Electron Builder
-      run: npm run build
+     
+    - name: Build with Electron Builder (Windows)
+      if: runner.os == 'Windows'
+      run: |
+        mkdir out
+        ls
+        npm run build
       env:
         GH_TOKEN: ${{ secrets.DESKTOP_GAMES_TOKEN }}
-        
-    #- name: Build with Electron Builder (Windows)
-    #  if: runner.os == 'Windows'
-    #  run: |
-    #    mkdir out
-    #    npm run build
-    #  env:
-    #    GH_TOKEN: ${{ secrets.DESKTOP_GAMES_TOKEN }}
     
-    #- name: Build with Electron Builder (Unix)
-    #  if: runner.os != 'Windows'
-    #  run: |
-    #    cd $GITHUB_WORKSPACE
-    #    mkdir out
-    #    chmod 777 out
-    #    npm run build
-    #  env:
-    #    GH_TOKEN: ${{ secrets.DESKTOP_GAMES_TOKEN }}
+    - name: Build with Electron Builder (Unix)
+      if: runner.os != 'Windows'
+      run: |
+        cd $GITHUB_WORKSPACE
+        mkdir out
+        chmod 777 out
+        ls
+        npm run build
+      env:
+        GH_TOKEN: ${{ secrets.DESKTOP_GAMES_TOKEN }}
 
     - name: Set asset path and name
       id: set_asset
