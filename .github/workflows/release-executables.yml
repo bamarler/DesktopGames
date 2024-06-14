@@ -41,7 +41,7 @@ jobs:
         pip install -r requirements.txt
 
     - name: Build with pyinstaller (Windows)
-      if: runner.os == 'windows-latest'
+      if: runner.os == 'Windows'
       run: |
         ls
         pyinstaller DesktopGames-win.spec
@@ -49,7 +49,7 @@ jobs:
         GH_TOKEN: ${{ secrets.DESKTOP_GAMES_TOKEN }}
     
     - name: Build with pyinstaller (Unix)
-      if: runner.os != 'windows-latest'
+      if: runner.os != 'Windows'
       run: |
         cd $GITHUB_WORKSPACE
         ls
@@ -63,12 +63,12 @@ jobs:
       shell: bash
 
     - name: Create ZIP archive (Windows)
-      if: runner.os == 'windows-latest'
+      if: runner.os == 'Windows'
       run: |
         Compress-Archive -Path dist\DesktopGames.exe -DestinationPath dist\desktop-games-${{ matrix.os }}.zip
 
     - name: Create ZIP archive (Unix)
-      if: runner.os != 'windows-latest'
+      if: runner.os != 'Windows'
       run: |
         zip dist/desktop-games-${{ matrix.os }}.zip dist/DesktopGames
   
