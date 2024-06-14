@@ -45,7 +45,7 @@ jobs:
       run: |
         mkdir out
         ls
-        pyinstaller DesktopGames.spec
+        pyinstaller DesktopGames-win.spec
       env:
         GH_TOKEN: ${{ secrets.DESKTOP_GAMES_TOKEN }}
     
@@ -56,7 +56,7 @@ jobs:
         mkdir out
         chmod 777 out
         ls
-        pyinstaller DesktopGames.spec
+        pyinstaller DesktopGames-unix.spec
       env:
         GH_TOKEN: ${{ secrets.DESKTOP_GAMES_TOKEN }}
     

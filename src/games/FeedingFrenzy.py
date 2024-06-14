@@ -1,12 +1,19 @@
 import pygame
+import os
 import sys
-sys.path.insert(0, 'C:\\Users\\bam27\\DesktopGames\\DesktopGames\\src')
-import math
-from random import randint, random
+
+file_path = os.path.dirname(os.path.realpath(__file__))
+while os.path.basename(file_path) != 'src':
+    file_path = os.path.dirname(file_path)
+sys.path.insert(0, file_path)
+
 from constants.FeedingConstants import *
 from classes.GameMenu import *
 from classes.highscores import *
 from classes.util import *
+
+import math
+from random import randint, random
 
 # Initialize Pygame
 pygame.init()

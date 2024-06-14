@@ -1,5 +1,3 @@
-# highscores.py
-
 import os
 
 HIGH_SCORE_FILE = "highscores.txt"

@@ -1,6 +1,12 @@
 import pygame
+import os
 import sys
-sys.path.insert(0, 'C:\\Users\\bam27\\DesktopGames\\DesktopGames\\src')
+
+file_path = os.path.dirname(os.path.realpath(__file__))
+while os.path.basename(file_path) != 'src':
+    file_path = os.path.dirname(file_path)
+sys.path.insert(0, file_path)
+
 from constants.GamesConstants import *
 from classes.Button import *
 from classes.util import *
