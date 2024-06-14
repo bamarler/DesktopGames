@@ -10,19 +10,32 @@ from src.games.FeedingFrenzy import *
 from src.games.SnakeGame import *
 from src.games.TemplateGame import *
 
+import math
+
 def main_menu():
     screen = pygame.display.set_mode((SCREEN_WIDTH, SCREEN_HEIGHT))
     pygame.display.set_caption('Main Menu')
     clock = pygame.time.Clock()
     
-    gameNames = [FEEDINGFRENZY, SNAKEGAME, TEMPLATEGAME, TEMP_GAME_NAME, TEMP_GAME_NAME]
+    singleGameNames = [FEEDINGFRENZY, SNAKEGAME]
+    multiGameNames = [COMINGSOON]
 
-    buttons = list()
+    MULTIPLAYER_TEXT_Y = SINGLE_PLAYER_TEXT_Y + GAME_BUTTON_SPACING + GAME_BUTTON_HEIGHT_SPACE * (math.ceil(len(singleGameNames) / GAME_BUTTONS_PER_ROW))
+    MULTIPLAYER_GAME_CY = MULTIPLAYER_TEXT_Y + GAME_BUTTON_HEIGHT
 
-    for i in range(0, len(gameNames)):
-        buttons.append(Button(screen, GAME_BUTTON_WIDTH, GAME_BUTTON_HEIGHT, gameNames[i], GAME_BUTTON_FONT, 
-                              GAME_BASE_CX + GAME_BUTTON_WIDTH_SPACE * (i % GAME_BUTTONS_PER_ROW), 
-                              GAME_BASE_CY + GAME_BUTTON_HEIGHT_SPACE * math.floor(i / GAME_BUTTONS_PER_ROW)))
+    singleButtons = list()
+
+    for i in range(0, len(singleGameNames)):
+        singleButtons.append(Button(screen, GAME_BUTTON_WIDTH, GAME_BUTTON_HEIGHT, singleGameNames[i], GAME_BUTTON_FONT, 
+                              SINGLE_PLAYER_GAME_CX + GAME_BUTTON_WIDTH_SPACE * (i % GAME_BUTTONS_PER_ROW), 
+                              SINGLE_PLAYER_GAME_CY + GAME_BUTTON_HEIGHT_SPACE * math.floor(i / GAME_BUTTONS_PER_ROW)))
+        
+    multiButtons = list()
+
+    for i in range(0, len(multiGameNames)):
+        multiButtons.append(Button(screen, GAME_BUTTON_WIDTH, GAME_BUTTON_HEIGHT, multiGameNames[i], GAME_BUTTON_FONT, 
+                              MULTIPLAYER_GAME_CX + GAME_BUTTON_WIDTH_SPACE * (i % GAME_BUTTONS_PER_ROW), 
+                              MULTIPLAYER_GAME_CY + GAME_BUTTON_HEIGHT_SPACE * math.floor(i / GAME_BUTTONS_PER_ROW)))
 
     # Main menu loop
     running = True
@@ -31,7 +44,12 @@ def main_menu():
 
         screen.blit(DESKTOP_GAME_TEXT, DESKTOP_GAME_RECT)
 
-        for button in buttons:
+        screen.blit(SINGLE_PLAYER_TEXT, (SINGLE_PLAYER_TEXT_X, SINGLE_PLAYER_TEXT_Y))
+        for button in singleButtons:
+            button.draw()
+
+        screen.blit(MULTIPLAYER_TEXT, (MULTIPLAYER_TEXT_X, MULTIPLAYER_TEXT_Y))
+        for button in multiButtons:
             button.draw()
 
         pygame.display.flip()
@@ -42,10 +60,14 @@ def main_menu():
                 pygame.quit()
                 sys.exit()
             elif event.type == pygame.MOUSEBUTTONDOWN:
-                for i in range(0, len(buttons)):
-                    if (buttons[i].clicked(event.pos)):
+                for i in range(0, len(singleButtons)):
+                    if (singleButtons[i].clicked(event.pos)):
                         running = False
-                        return gameNames[i]
+                        return singleGameNames[i]
+                for i in range(0, len(multiButtons)):
+                    if (multiButtons[i].clicked(event.pos)):
+                        running = False
+                        return multiGameNames[i]
             elif event.type == pygame.KEYDOWN:
                 if (event.key == pygame.K_ESCAPE):
                     running = False
@@ -63,7 +85,7 @@ def main():
     while running:
         if (current_screen == MAINMENU):
             current_screen = main_menu()
-        if (current_screen == TEMP_GAME_NAME):
+        if (current_screen == COMINGSOON):
             current_screen = main_menu()
         elif (current_screen == FEEDINGFRENZY):
             feedingFrenzy = FeedingFrenzy()
