@@ -1,8 +1,9 @@
 import pygame
 import sys
-from GamesConstants import *
-from Button import *
-from util import *
+sys.path.insert(0, 'C:\\Users\\bam27\\DesktopGames\\DesktopGames\\src')
+from constants.GamesConstants import *
+from classes.Button import *
+from classes.util import *
 
 class GameMenu:
     def __init__(self, screen, name):

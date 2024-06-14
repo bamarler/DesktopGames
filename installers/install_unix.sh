@@ -22,7 +22,7 @@ python3 -m pip install --upgrade pip
 pip3 install -r requirements.txt
 
 # Build the game with PyInstaller
-pyinstaller --onefile --name DesktopGames src/main.py
+pyinstaller DesktopGames.spec
 
 # Move the built executable to the install path
 mv dist/DesktopGames "$INSTALL_PATH/DesktopGames"

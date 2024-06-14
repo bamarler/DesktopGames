@@ -1,10 +1,11 @@
 import pygame
 import sys
-from SnakeConstants import *
-from GameMenu import *
-from highscores import *
+from constants.SnakeConstants import *
+from classes.GameMenu import *
+from classes.highscores import *
+from classes.util import *
 from random import randint
-from util import isWithinCircle
+
 
 pygame.init()
 

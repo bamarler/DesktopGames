@@ -1,5 +1,7 @@
 import pygame
-from GamesConstants import *
+import sys
+sys.path.insert(0, 'C:\\Users\\bam27\\DesktopGames\\DesktopGames\\src')
+from constants.GamesConstants import *
 
 pygame.init()
 

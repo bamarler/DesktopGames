@@ -35,63 +35,55 @@ jobs:
     - name: Checkout code
       uses: actions/checkout@v2
 
-    - name: Set up Node.js
-      uses: actions/setup-node@v2
-      with:
-        node-version: '20'
-
-    - name: Clean install dependencies (Unix)
-      if: runner.os != 'Windows'
+    - name: Install Dependencies
       run: |
-        rm -rf node_modules
-        npm install
-  
-    - name: Clean install dependencies (Windows)
-      if: runner.os == 'Windows'
-      run: |
-        if (Test-Path node_modules) { Remove-Item -Recurse -Force node_modules }
-        npm install
+        python -m pip install --upgrade pip
+        pip install requirements.txt
 
-    - name: Set permissions for electron-builder
-      if: runner.os != 'Windows'
-      run: chmod +x ./node_modules/.bin/electron-builder
-     
-    - name: Build with Electron Builder (Windows)
+    - name: Build with pyinstaller (Windows)
       if: runner.os == 'Windows'
       run: |
         mkdir out
         ls
-        npm run build
+        pyinstaller DesktopGames.spec
       env:
         GH_TOKEN: ${{ secrets.DESKTOP_GAMES_TOKEN }}
     
-    - name: Build with Electron Builder (Unix)
+    - name: Build with pyinstaller (Unix)
       if: runner.os != 'Windows'
       run: |
         cd $GITHUB_WORKSPACE
         mkdir out
         chmod 777 out
         ls
-        npm run build
+        pyinstaller DesktopGames.spec
       env:
         GH_TOKEN: ${{ secrets.DESKTOP_GAMES_TOKEN }}
+    
+    - name: Verify asset existence
+      run: ls ./out
+      shell: bash
 
+    - name: Create ZIP archive
+      id: create_zip
+      run: |
+        if [ "${{ matrix.os }}" == "windows-latest" ]; then
+          zip -j out/desktop-games-${{ matrix.os }}.zip out/DesktopGames.exe
+        elif [ "${{ matrix.os }}" == "macos-latest" ]; then
+          zip -r out/desktop-games-${{ matrix.os }}.zip out/DesktopGames.app
+        else
+          zip -j out/desktop-games-${{ matrix.os }}.zip out/DesktopGames
+        fi
+      shell: bash
+  
     - name: Set asset path and name
       id: set_asset
       run: |
         echo "OS_NAME=${{ matrix.os }}"
-        if [ "${{ matrix.os }}" == "windows-latest" ]; then
-          echo "::set-output name=asset_path::./out/desktop-games-${{ matrix.os }}.exe"
-          echo "::set-output name=asset_name::desktop-games-${{ matrix.os }}.exe"
-        elif [ "${{ matrix.os }}" == "macos-latest" ]; then
-          echo "::set-output name=asset_path::./out/desktop-games-${{ matrix.os }}.dmg"
-          echo "::set-output name=asset_name::desktop-games-${{ matrix.os }}.dmg"
-        else
-          echo "::set-output name=asset_path::./out/desktop-games-${{ matrix.os }}.AppImage"
-          echo "::set-output name=asset_name::desktop-games-${{ matrix.os }}.AppImage"
-        fi
+        echo "::set-output name=asset_path::./out/desktop-games-${{ matrix.os }}.zip"
+        echo "::set-output name=asset_name::desktop-games-${{ matrix.os }}.zip"
       shell: bash
-      
+  
     - name: Verify asset existence
       run: ls ./out
       shell: bash
@@ -104,4 +96,4 @@ jobs:
         upload_url: ${{ needs.release.outputs.upload_url }}
         asset_path: ${{ steps.set_asset.outputs.asset_path }}
         asset_name: ${{ steps.set_asset.outputs.asset_name }}
-        asset_content_type: application/octet-stream
+        asset_content_type: application/zip

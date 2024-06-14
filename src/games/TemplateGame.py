@@ -1,8 +1,8 @@
 import pygame
 import sys
-from TemplateConstants import *
-from GameMenu import *
-from highscores import *
+from constants.TemplateConstants import *
+from classes.GameMenu import *
+from classes.highscores import *
 
 pygame.init()
 

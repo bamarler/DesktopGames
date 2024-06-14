@@ -25,7 +25,7 @@ python -m pip install --upgrade pip
 pip install -r requirements.txt
 
 :: Build the game with PyInstaller
-pyinstaller --onefile --name DesktopGames src/main.py
+pyinstaller DesktopGmaes.spec
 
 :: Move the built executable to the install path
 move dist\DesktopGames.exe "%INSTALL_PATH%\DesktopGames.exe"

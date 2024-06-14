@@ -1,12 +1,12 @@
 import pygame
 import sys
+sys.path.insert(0, 'C:\\Users\\bam27\\DesktopGames\\DesktopGames\\src')
 import math
 from random import randint, random
-from FeedingConstants import *
-from GameMenu import *
-from Button import *
-from highscores import *
-from util import *
+from constants.FeedingConstants import *
+from classes.GameMenu import *
+from classes.highscores import *
+from classes.util import *
 
 # Initialize Pygame
 pygame.init()

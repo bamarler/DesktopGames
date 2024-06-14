@@ -1,10 +1,11 @@
 import pygame
 import sys
-from MainMenuConstants import *
-from FeedingFrenzy import *
-from SnakeGame import *
-from TemplateGame import *
-from Button import *
+sys.path.insert(0, 'C:\\Users\\bam27\\DesktopGames\\DesktopGames\\src')
+from constants.MainMenuConstants import *
+from classes.Button import *
+from games.FeedingFrenzy import *
+from games.SnakeGame import *
+from games.TemplateGame import *
 
 def main_menu():
     screen = pygame.display.set_mode((SCREEN_WIDTH, SCREEN_HEIGHT))
