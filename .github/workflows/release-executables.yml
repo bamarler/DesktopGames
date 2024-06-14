@@ -41,7 +41,7 @@ jobs:
         pip install -r requirements.txt
 
     - name: Build with pyinstaller (Windows)
-      if: runner.os == 'Windows'
+      if: runner.os == 'windows-latest'
       run: |
         ls
         pyinstaller DesktopGames-win.spec
@@ -49,7 +49,7 @@ jobs:
         GH_TOKEN: ${{ secrets.DESKTOP_GAMES_TOKEN }}
     
     - name: Build with pyinstaller (Unix)
-      if: runner.os != 'Windows'
+      if: runner.os != 'windows-latest'
       run: |
         cd $GITHUB_WORKSPACE
         ls
@@ -62,16 +62,15 @@ jobs:
       run: ls ./dist
       shell: bash
 
-    - name: Create ZIP archive
-      id: create_zip
+    - name: Create ZIP archive (Windows)
+      if: runner.os == 'windows-latest'
       run: |
-        if [ "${{ matrix.os }}" == "windows-latest" ]; then
-          Compress-Archive -Path dist\DesktopGames.exe -DestinationPath dist\desktop-games-${{ matrix.os }}.zip
-        elif [ "${{ matrix.os }}" == "macos-latest" ]; then
-          zip dist/desktop-games-${{ matrix.os }}.zip dist/DesktopGames
-        else
-          zip dist/desktop-games-${{ matrix.os }}.zip dist/DesktopGames
-        fi
+        Compress-Archive -Path dist\DesktopGames.exe -DestinationPath dist\desktop-games-${{ matrix.os }}.zip
+
+    - name: Create ZIP archive (Unix)
+      if: runner.os != 'windows-latest'
+      run: |
+        zip dist/desktop-games-${{ matrix.os }}.zip dist/DesktopGames
   
     - name: Set asset path and name
       id: set_asset
