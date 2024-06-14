@@ -13,8 +13,6 @@ a = Analysis(
     excludes=[],
     noarchive=False,
     optimize=0,
-    distpath='out',
-    workpath='build',
 )
 pyz = PYZ(a.pure)
 

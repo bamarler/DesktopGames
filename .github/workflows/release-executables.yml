@@ -61,18 +61,18 @@ jobs:
         GH_TOKEN: ${{ secrets.DESKTOP_GAMES_TOKEN }}
     
     - name: Verify asset existence
-      run: ls ./out
+      run: ls ./dist
       shell: bash
 
     - name: Create ZIP archive
       id: create_zip
       run: |
         if [ "${{ matrix.os }}" == "windows-latest" ]; then
-          zip -j out/desktop-games-${{ matrix.os }}.zip out/DesktopGames.exe
+          zip -j out/desktop-games-${{ matrix.os }}.zip dist/DesktopGames.exe
         elif [ "${{ matrix.os }}" == "macos-latest" ]; then
-          zip -r out/desktop-games-${{ matrix.os }}.zip out/DesktopGames.app
+          zip -r out/desktop-games-${{ matrix.os }}.zip dist/DesktopGames.app
         else
-          zip -j out/desktop-games-${{ matrix.os }}.zip out/DesktopGames
+          zip -j out/desktop-games-${{ matrix.os }}.zip dist/DesktopGames
         fi
       shell: bash
   
@@ -80,12 +80,12 @@ jobs:
       id: set_asset
       run: |
         echo "OS_NAME=${{ matrix.os }}"
-        echo "::set-output name=asset_path::./out/desktop-games-${{ matrix.os }}.zip"
+        echo "::set-output name=asset_path::./dist/desktop-games-${{ matrix.os }}.zip"
         echo "::set-output name=asset_name::desktop-games-${{ matrix.os }}.zip"
       shell: bash
   
     - name: Verify asset existence
-      run: ls ./out
+      run: ls ./dist
       shell: bash
 
     - name: Upload release assets
