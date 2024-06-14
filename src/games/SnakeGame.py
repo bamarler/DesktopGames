@@ -108,7 +108,7 @@ class SnakeGame():
     def __init__(self):
         self.screen = pygame.display.set_mode((SCREEN_WIDTH, SCREEN_HEIGHT))
         self.gameMenu = GameMenu(self.screen, SNAKEGAME_TEXT)
-        self.highScore = load_high_score(TEMPLATEGAME)
+        self.highScore = load_high_score(SNAKEGAME)
         self.score = 0
         self.gameEnd = True
         self.pause = False
@@ -187,7 +187,7 @@ class SnakeGame():
             
 
         if (self.highScore < self.score):
-            save_high_score(TEMPLATEGAME, self.highScore)
+            save_high_score(SNAKEGAME, self.highScore)
             self.highScore = self.score
     
     # Effect: changes our direction parameters or resets the game
