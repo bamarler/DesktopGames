@@ -2,12 +2,9 @@ import pygame
 import os
 import sys
 
-file_path = os.path.dirname(os.path.realpath(__file__))
-while os.path.basename(file_path) != 'src':
-    file_path = os.path.dirname(file_path)
-sys.path.insert(0, file_path)
+sys.path.insert(0, os.path.dirname(os.path.dirname(os.path.dirname(os.path.realpath(__file__)))))
 
-from constants.GamesConstants import *
+from src.constants.GamesConstants import *
 
 pygame.init()
 

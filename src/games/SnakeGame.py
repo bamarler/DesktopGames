@@ -2,15 +2,13 @@ import pygame
 import os
 import sys
 
-file_path = os.path.dirname(os.path.realpath(__file__))
-while os.path.basename(file_path) != 'src':
-    file_path = os.path.dirname(file_path)
-sys.path.insert(0, file_path)
+sys.path.insert(0, os.path.dirname(os.path.dirname(os.path.dirname(os.path.realpath(__file__)))))
 
-from constants.SnakeConstants import *
-from classes.GameMenu import *
-from classes.highscores import *
-from classes.util import *
+from src.constants.SnakeConstants import *
+from src.classes.GameMenu import *
+from src.classes.highscores import *
+from src.classes.util import *
+
 from random import randint
 
 

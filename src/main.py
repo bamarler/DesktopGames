@@ -2,16 +2,13 @@ import pygame
 import os
 import sys
 
-file_path = os.path.dirname(os.path.realpath(__file__))
-while os.path.basename(file_path) != 'src':
-    file_path = os.path.dirname(file_path)
-sys.path.insert(0, file_path)
+sys.path.insert(0, os.path.dirname(os.path.dirname(os.path.realpath(__file__))))
 
-from constants.MainMenuConstants import *
-from classes.Button import *
-from games.FeedingFrenzy import *
-from games.SnakeGame import *
-from games.TemplateGame import *
+from src.constants.MainMenuConstants import *
+from src.classes.Button import *
+from src.games.FeedingFrenzy import *
+from src.games.SnakeGame import *
+from src.games.TemplateGame import *
 
 def main_menu():
     screen = pygame.display.set_mode((SCREEN_WIDTH, SCREEN_HEIGHT))
