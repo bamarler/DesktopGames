@@ -66,13 +66,12 @@ jobs:
       id: create_zip
       run: |
         if [ "${{ matrix.os }}" == "windows-latest" ]; then
-          zip -j dist/desktop-games-${{ matrix.os }}.zip dist/DesktopGames.exe
+          Compress-Archive -Path dist\DesktopGames.exe -DestinationPath dist\desktop-games-${{ matrix.os }}.zip
         elif [ "${{ matrix.os }}" == "macos-latest" ]; then
-          zip -r dist/desktop-games-${{ matrix.os }}.zip dist/DesktopGames
+          zip dist/desktop-games-${{ matrix.os }}.zip dist/DesktopGames
         else
-          zip -j dist/desktop-games-${{ matrix.os }}.zip dist/DesktopGames
+          zip dist/desktop-games-${{ matrix.os }}.zip dist/DesktopGames
         fi
-      shell: bash
   
     - name: Set asset path and name
       id: set_asset
