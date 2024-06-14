@@ -54,7 +54,7 @@ jobs:
         cd $GITHUB_WORKSPACE
         ls
         pyinstaller DesktopGames-unix.spec
-        chmod +x dist\DesktopGames
+        chmod +x dist/DesktopGames
       env:
         GH_TOKEN: ${{ secrets.DESKTOP_GAMES_TOKEN }}
     
