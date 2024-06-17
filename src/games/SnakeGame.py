@@ -117,8 +117,7 @@ class SnakeGame():
         self.coveredTiles = list()
         self.apple = Apple(self.screen)
         self.apple.pickPos(self.coveredTiles)
-  
-        pygame.display.set_caption('Snake Game')
+        pygame.display.set_caption(SNAKEGAME)
     
     # makes scene and updates display by calling flip()
     # Effect: draws everything onto the screen (overwriting previous items)

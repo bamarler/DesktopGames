@@ -1,2 +1,2 @@
 Feeding Frenzy: 361
-Snake Game: 54
+Snake Game: 68

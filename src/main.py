@@ -6,9 +6,13 @@ sys.path.insert(0, os.path.dirname(os.path.dirname(os.path.realpath(__file__))))
 
 from src.constants.MainMenuConstants import *
 from src.classes.Button import *
+
+from src.games.TemplateGame import *
+from src.games.ComingSoon import *
+
 from src.games.FeedingFrenzy import *
 from src.games.SnakeGame import *
-from src.games.TemplateGame import *
+
 
 import math
 
@@ -17,8 +21,8 @@ def main_menu():
     pygame.display.set_caption('Main Menu')
     clock = pygame.time.Clock()
     
-    singleGameNames = [FEEDINGFRENZY, SNAKEGAME]
-    multiGameNames = [COMINGSOON]
+    singleGameNames = [FEEDINGFRENZY, SNAKEGAME, MINESWEEPER, TWENTYFOURTYEIGHT, SUDOKU, TETRIS, FLAPPYBIRD]
+    multiGameNames = [CHESS, TICTACTOE, TANKGAME]
 
     MULTIPLAYER_TEXT_Y = SINGLE_PLAYER_TEXT_Y + GAME_BUTTON_SPACING + GAME_BUTTON_HEIGHT_SPACE * (math.ceil(len(singleGameNames) / GAME_BUTTONS_PER_ROW))
     MULTIPLAYER_GAME_CY = MULTIPLAYER_TEXT_Y + GAME_BUTTON_HEIGHT
@@ -85,8 +89,6 @@ def main():
     while running:
         if (current_screen == MAINMENU):
             current_screen = main_menu()
-        if (current_screen == COMINGSOON):
-            current_screen = main_menu()
         elif (current_screen == FEEDINGFRENZY):
             feedingFrenzy = FeedingFrenzy()
             current_screen = feedingFrenzy.run()
@@ -98,6 +100,9 @@ def main():
             current_screen = templateGame.run()
         elif (current_screen == QUIT):
             running = False
+        else:
+            comingSoon = ComingSoon()
+            current_screen = comingSoon.run()
 
 if __name__ == "__main__":
     main()

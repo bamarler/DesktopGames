@@ -24,8 +24,19 @@ BUTTON_COLOR = CYAN
 BUTTON_TEXT_COLOR = CHARCOAL
 
 # constants representing each game
-COMINGSOON = "COMING SOON"
 TEMPLATEGAME = "Template Game"
-SNAKEGAME = "Snake Game"
+COMINGSOON = "COMING SOON"
+
 FEEDINGFRENZY = "Feeding Frenzy"
+SNAKEGAME = "Snake Game"
+TWENTYFOURTYEIGHT = "2048"
+FLAPPYBIRD = "Flappy Bird"
+MINESWEEPER = "Minesweeper"
+TETRIS = "Tetris"
+SUDOKU = "Sudoku"
+WORDLE = "Wordle"
+
+CHESS = "Chess"
+TICTACTOE = "Super Tic-Tac-Toe"
+TANKGAME = "Tank Game"
 

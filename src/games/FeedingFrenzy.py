@@ -189,7 +189,7 @@ class FeedingFrenzy():
         self.timer = 0
         self.backgroundMaxSize = BACKGROUND_MAX_SIZE1
         self.populationCap = POPULATION_CAP1
-        pygame.display.set_caption('Feeding Frenzy')
+        pygame.display.set_caption(FEEDINGFRENZY)
     
     # makes scene and updates display by calling flip()
     # Effect: draws everything onto the screen (overwriting previous items)
